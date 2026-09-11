@@ -24,6 +24,7 @@ use Modules\Core\Support\DateHelpers;
 use Modules\Invoices\Enums\InvoiceStatus;
 use Modules\Invoices\Filament\Company\Actions\EmailInvoiceAction;
 use Modules\Invoices\Filament\Company\Actions\SendReminderAction;
+use Modules\Invoices\Filament\Company\Resources\Invoices\InvoiceResource;
 use Modules\Invoices\Models\Invoice;
 use Modules\Invoices\Services\InvoiceCopyService;
 use Modules\Invoices\Services\InvoiceService;
@@ -35,6 +36,9 @@ class InvoicesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->recordUrl(fn (Invoice $record): ?string => auth()->user()?->can(Permission::EDIT_INVOICES->value)
+                ? InvoiceResource::getUrl('edit', ['record' => $record])
+                : null)
             ->columns([
                 TextColumn::make('invoice_status')
                     ->badge()
@@ -100,6 +104,7 @@ class InvoicesTable
                 ActionGroup::make([
                     EditAction::make()
                         ->visible(fn () => auth()->user()?->can(Permission::EDIT_INVOICES->value))
+                        ->url(fn (Invoice $record): string => InvoiceResource::getUrl('edit', ['record' => $record]))
                         ->mutateDataUsing(function (array $data, Invoice $record) {
                             $data['invoiceItems'] = $record->invoiceItems()->get()->map(function ($item) {
                                 $product = $item->product;

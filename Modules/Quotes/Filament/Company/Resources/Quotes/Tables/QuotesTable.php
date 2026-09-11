@@ -16,6 +16,7 @@ use Modules\Core\Helpers\EnumHelper;
 use Modules\Core\Support\DateHelpers;
 use Modules\Quotes\Enums\QuoteStatus;
 use Modules\Quotes\Filament\Company\Actions\EmailQuoteAction;
+use Modules\Quotes\Filament\Company\Resources\Quotes\QuoteResource;
 use Modules\Quotes\Models\Quote;
 use Modules\Quotes\Services\QuoteService;
 
@@ -24,6 +25,9 @@ class QuotesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->recordUrl(fn (Quote $record): ?string => auth()->user()?->can(Permission::EDIT_QUOTES->value)
+                ? QuoteResource::getUrl('edit', ['record' => $record])
+                : null)
             ->columns([
                 TextColumn::make('quote_status')
                     ->label(trans('ip.quote_status'))
@@ -68,6 +72,7 @@ class QuotesTable
                 ActionGroup::make([
                     EditAction::make('edit')
                         ->visible(fn () => auth()->user()?->can(Permission::EDIT_QUOTES->value))
+                        ->url(fn (Quote $record): string => QuoteResource::getUrl('edit', ['record' => $record]))
                         ->action(function (Quote $record, array $data) {
                             app(QuoteService::class)->updateQuote($record, $data);
                         })

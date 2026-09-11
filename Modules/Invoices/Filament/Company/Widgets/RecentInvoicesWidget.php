@@ -34,11 +34,8 @@ class RecentInvoicesWidget extends TableWidget
 
     public function table(Table $table): Table
     {
-        // InvoiceResource only registers an 'index' page — editing happens
-        // via a modal action on that page's table, not a dedicated edit/view
-        // page — so this is the most specific URL a row can link to.
         return parent::table($table)
-            ->recordUrl(fn (Invoice $record): string => InvoiceResource::getUrl('index'));
+            ->recordUrl(fn (Invoice $record): string => InvoiceResource::getUrl('edit', ['record' => $record]));
     }
 
     protected function getTableQuery(): Builder|Relation|null

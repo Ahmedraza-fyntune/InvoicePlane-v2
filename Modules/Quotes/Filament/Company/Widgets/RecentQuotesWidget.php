@@ -34,11 +34,8 @@ class RecentQuotesWidget extends TableWidget
 
     public function table(Table $table): Table
     {
-        // QuoteResource only registers an 'index' page — editing happens via
-        // a modal action on that page's table, not a dedicated edit/view
-        // page — so this is the most specific URL a row can link to.
         return parent::table($table)
-            ->recordUrl(fn (Quote $record): string => QuoteResource::getUrl('index'));
+            ->recordUrl(fn (Quote $record): string => QuoteResource::getUrl('edit', ['record' => $record]));
     }
 
     protected function getTableQuery(): Builder|Relation|null
