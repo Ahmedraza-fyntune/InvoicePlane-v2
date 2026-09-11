@@ -9,6 +9,7 @@ use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Modules\Core\Support\DateHelpers;
+use Modules\Core\Support\NumberFormatter;
 use Modules\Quotes\Filament\Company\Resources\Quotes\QuoteResource;
 use Modules\Quotes\Models\Quote;
 
@@ -55,7 +56,7 @@ class RecentQuotesWidget extends TableWidget
                 ->formatStateUsing(fn ($state) => $state?->label() ?? '-')
                 ->color(fn ($state) => $state?->color() ?? 'secondary'),
             TextColumn::make('quote_number')->label(trans('ip.quote_number')),
-            TextColumn::make('prospect.company_name')->limit(10)->label(trans('ip.prospect_name')),
+            TextColumn::make('prospect.company_name')->limit(15)->label(trans('ip.prospect_name')),
             TextColumn::make('quote_expires_at')
                 ->label(trans('ip.quote_expires_at'))
                 ->color(fn ($state, $record) => $record?->expires_intensity ?? 'secondary')
@@ -70,6 +71,10 @@ class RecentQuotesWidget extends TableWidget
 
                     return DateHelpers::formatDate($state);
                 }),
+            TextColumn::make('quote_total')
+                ->label(trans('ip.total'))
+                ->formatStateUsing(fn ($state) => NumberFormatter::formatCurrency($state))
+                ->alignEnd(),
         ];
     }
 }

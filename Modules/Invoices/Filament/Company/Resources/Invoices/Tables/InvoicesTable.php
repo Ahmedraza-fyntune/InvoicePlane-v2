@@ -21,6 +21,7 @@ use Modules\Core\Enums\NumberingType;
 use Modules\Core\Enums\Permission;
 use Modules\Core\Models\Numbering;
 use Modules\Core\Support\DateHelpers;
+use Modules\Core\Support\NumberFormatter;
 use Modules\Invoices\Enums\InvoiceStatus;
 use Modules\Invoices\Filament\Company\Actions\EmailInvoiceAction;
 use Modules\Invoices\Filament\Company\Actions\SendReminderAction;
@@ -87,6 +88,9 @@ class InvoicesTable
                     ->sortable()
                     ->toggleable(),
                 TextColumn::make('invoice_total')
+                    ->label(trans('ip.total'))
+                    ->formatStateUsing(fn ($state) => NumberFormatter::formatCurrency($state))
+                    ->alignEnd()
                     ->searchable()
                     ->sortable()
                     ->toggleable(),

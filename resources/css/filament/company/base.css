@@ -114,25 +114,64 @@
 }
 
 /*
- * Modern UI accents
+ * Modern Minimal UI Accents & Component Overrides
  */
 
-/*
- * Active navigation item: a clean brand-tinted pill makes the current page
- * findable at a glance.
- */
+/* Active navigation item: clean brand-tinted pill */
 .fi-sidebar-item.fi-active > .fi-sidebar-item-btn {
-    @apply bg-primary-100/80! text-primary-700! dark:bg-primary-400/10! dark:text-primary-300!;
+    @apply bg-primary-100/80! text-primary-700! font-medium dark:bg-primary-400/10! dark:text-primary-300!;
 }
 
-/*
- * Table header: a subtle neutral tint separates headers cleanly from table rows.
- */
+/* Sections & Cards: modern minimal rounded corners with clean subtle border */
+.fi-section {
+    @apply rounded-xl border border-gray-200/80 shadow-xs bg-white dark:bg-gray-900 dark:border-gray-800 transition-all duration-150;
+}
+
+.fi-section-header {
+    @apply px-6 py-4 border-b border-gray-100 dark:border-gray-800;
+}
+
+/* Stats Overview Cards: minimal SaaS KPI styling */
+.fi-wi-stats-overview-stat {
+    @apply rounded-xl border border-gray-200/80 bg-white p-6 shadow-xs transition-all duration-200 hover:shadow-md hover:border-gray-300/80 dark:bg-gray-900 dark:border-gray-800 dark:hover:border-gray-700;
+}
+
+.fi-wi-stats-overview-stat-label {
+    @apply text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400;
+}
+
+.fi-wi-stats-overview-stat-value {
+    @apply text-2xl font-bold tracking-tight text-gray-900 dark:text-white mt-1;
+}
+
+.fi-wi-stats-overview-stat-description {
+    @apply text-xs font-medium text-gray-500 dark:text-gray-400 mt-2 flex items-center gap-1.5;
+}
+
+/* Table styling: clean minimal headers, subtle borders, comfortable row padding */
+.fi-ta-ctn {
+    @apply rounded-xl border border-gray-200/80 shadow-xs overflow-hidden dark:border-gray-800;
+}
+
 .fi-ta-table > thead {
-    @apply bg-gray-50 dark:bg-white/5;
+    @apply bg-gray-50/90 dark:bg-gray-800/60 border-b border-gray-200/80 dark:border-gray-800;
 
     & .fi-ta-header-cell-label,
     & .fi-ta-header-cell-sort-btn {
         @apply text-gray-600 dark:text-gray-300 font-semibold text-xs tracking-wider uppercase;
     }
+}
+
+.fi-ta-row {
+    @apply transition-colors duration-100 hover:bg-gray-50/60 dark:hover:bg-gray-800/40;
+}
+
+/* Badges: sleek minimal pills */
+.fi-badge {
+    @apply rounded-full font-medium text-xs px-2.5 py-0.5 tracking-normal;
+}
+
+/* Primary buttons: Niels' brand blue with smooth transition */
+.fi-btn-primary {
+    @apply shadow-xs hover:shadow-sm transition-all duration-150 active:scale-[0.99];
 }

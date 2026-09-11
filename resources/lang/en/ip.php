@@ -47,6 +47,12 @@ return [
     #endregion
 
     #region CORE
+    'awaiting_payment'                             => 'Awaiting Payment',
+    'paid_invoices_count'                          => ':count paid invoices',
+    'pending_invoices_count'                       => ':count awaiting payment',
+    'overdue_invoices_count'                       => ':count overdue',
+    'quotes_pipeline'                              => 'Quotes Pipeline',
+    'active_quotes_count'                          => ':count active in pipeline',
     'user_not_in_company'                          => 'You do not have access to this company.',
     'Q1'                                           => 'Q1',
     'Q2'                                           => 'Q2',

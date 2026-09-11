@@ -192,6 +192,7 @@ class CompanyPanelProvider extends PanelProvider
                 CompanySettings::class,
             ])
             ->widgets([
+                CompanyStatsOverviewWidget::class,
                 RecentQuotesWidget::class,
                 RecentInvoicesWidget::class,
                 //RecentProjectsWidget::class,

@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use Modules\Core\Enums\Permission;
 use Modules\Core\Helpers\EnumHelper;
 use Modules\Core\Support\DateHelpers;
+use Modules\Core\Support\NumberFormatter;
 use Modules\Quotes\Enums\QuoteStatus;
 use Modules\Quotes\Filament\Company\Actions\EmailQuoteAction;
 use Modules\Quotes\Filament\Company\Resources\Quotes\QuoteResource;
@@ -65,7 +66,13 @@ class QuotesTable
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
-                TextColumn::make('quote_total')->searchable()->sortable()->toggleable(),
+                TextColumn::make('quote_total')
+                    ->label(trans('ip.total'))
+                    ->formatStateUsing(fn ($state) => NumberFormatter::formatCurrency($state))
+                    ->alignEnd()
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
             ])
             ->filters([])
             ->recordActions([
