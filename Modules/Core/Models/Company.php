@@ -21,6 +21,7 @@ use Modules\Expenses\Models\ExpenseCategory;
 use Modules\Expenses\Models\ExpenseItem;
 use Modules\Invoices\Models\Invoice;
 use Modules\Invoices\Models\InvoiceItem;
+use Modules\Payments\Models\CompanyPaymentMethod;
 use Modules\Payments\Models\Payment;
 use Modules\Products\Models\Product;
 use Modules\Products\Models\ProductCategory;
@@ -164,6 +165,28 @@ class Company extends Model implements HasName, HasCurrentTenantLabel
         return $this->hasMany(EmailTemplate::class);
     }
 
+    public function emailTemplates(): BelongsToMany
+    {
+        return $this->belongsToMany(EmailTemplate::class, 'company_email_template')
+            ->withoutGlobalScope('company_id');
+    }
+
+    public function invoiceGroups(): BelongsToMany
+    {
+        return $this->belongsToMany(Numbering::class, 'company_numbering')
+            ->withoutGlobalScope('company_id');
+    }
+
+    /**
+     * Payment methods (enum values) assigned to this company via the admin
+     * bulk action. PaymentMethod has no model of its own, so this is a
+     * HasMany over the pivot rows rather than a BelongsToMany.
+     */
+    public function paymentMethods(): HasMany
+    {
+        return $this->hasMany(CompanyPaymentMethod::class);
+    }
+
     public function expense_categories(): HasMany
     {
         return $this->hasMany(ExpenseCategory::class);
@@ -242,6 +265,12 @@ class Company extends Model implements HasName, HasCurrentTenantLabel
     public function taxRates(): HasMany
     {
         return $this->hasMany(TaxRate::class);
+    }
+
+    public function assignedTaxRates(): BelongsToMany
+    {
+        return $this->belongsToMany(TaxRate::class, 'company_tax_rate')
+            ->withoutGlobalScope('company_id');
     }
 
     public function upload_details(): HasMany
